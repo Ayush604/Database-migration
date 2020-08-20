@@ -114,10 +114,16 @@ def main():
 
     # Pandas building dataframe, and exporting .xlsx copy of table
     df = DataFrame(sqlData)
+    df["NAME"] = df["NAME"].astype(str)
+    df["AGE"] = df["AGE"].astype(str)
+    df["CITY"] = df["CITY"].astype(str)
+    df["MOBILE"] = df["MOBILE"].astype(str)
+    df["ID"] = df["ID"].astype(str)
 
-    dfHeaders = sqlData.values.tolist()
+    dfHeaders = df.columns.values.tolist()
 
-    dfHeadersArray = dfHeaders
+    ab = df.values.tolist()
+    dfHeadersArray = [dfHeaders]
 
 
     print(dfHeaders)
@@ -133,7 +139,7 @@ def main():
 
     value_range_body = {
         "majorDimension": "ROWS",
-        "values": dfHeadersArray
+        "values": dfHeadersArray + ab
     }
 
     request = service.spreadsheets().values().append(spreadsheetId=spreadsheetId, range=rangeName,
